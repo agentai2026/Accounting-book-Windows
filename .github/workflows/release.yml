@@ -23,11 +23,22 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Build Windows release
-        shell: pwsh
-        run: powershell -ExecutionPolicy Bypass -File scripts/build_windows_release.ps1
+      - name: Enable Windows desktop
+        run: flutter config --enable-windows-desktop
 
-      - name: Resolve artifact path
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate Windows icons
+        run: dart run tool/generate_icons.dart .
+
+      - name: Test
+        run: flutter test
+
+      - name: Build Windows release
+        run: flutter build windows --release
+
+      - name: Package zip
         id: artifact
         shell: pwsh
         run: |
@@ -36,8 +47,17 @@ jobs:
           if ($line) {
             $version = ($line.Matches.Groups[1].Value -split '\+')[0].Trim()
           }
+          $distRoot = Join-Path $PWD 'dist'
+          New-Item -ItemType Directory -Path $distRoot -Force | Out-Null
+          $sourceDir = Join-Path $PWD 'build\windows\x64\runner\Release'
+          $outDir = Join-Path $distRoot "ezbookkeeping-$version-windows-x64"
+          if (Test-Path $outDir) { Remove-Item $outDir -Recurse -Force }
+          Copy-Item -Path $sourceDir -Destination $outDir -Recurse
+          $zipPath = Join-Path $distRoot "ezbookkeeping-$version-windows-x64.zip"
+          if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+          Compress-Archive -Path $outDir -DestinationPath $zipPath
           "version=$version" >> $env:GITHUB_OUTPUT
-          "zip=dist/ezbookkeeping-$version-windows-x64.zip" >> $env:GITHUB_OUTPUT
+          "zip=$zipPath" >> $env:GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
