@@ -1,0 +1,48 @@
+命令行（手动开发）
+
+在项目根目录 记账本电脑端 下：
+
+flutter pub get
+flutter run -d windows
+
+PowerShell 示例：
+
+cd "c:\Users\admin\Desktop\我的项目\记账本电脑端"
+flutter pub get
+flutter run -d windows
+
+热重启：在 flutter run 终端按 R（大写）
+
+更换应用图标（侧栏 / 标题栏 / 任务栏）
+
+替换 assets\icons\app_icon.png 后执行：
+
+powershell -ExecutionPolicy Bypass -File tool\generate_icons.ps1
+flutter pub get
+
+然后完全退出应用（终端按 q），重新 flutter run -d windows
+
+注意：任务栏图标来自 exe 内嵌资源，热重载 R 无效；换图标后必须重新编译原生层。
+若仍是 Flutter 默认蓝标，先 q 退出，再执行：
+  powershell -ExecutionPolicy Bypass -File tool\generate_icons.ps1
+  powershell -ExecutionPolicy Bypass -File tool\clear_icon_cache.ps1
+  flutter run -d windows
+并从任务栏取消固定旧图标后再固定新窗口
+
+
+先关闭正在运行的轻记账，再执行：
+
+cd "c:\Users\admin\Desktop\我的项目\记账本电脑端"
+powershell -ExecutionPolicy Bypass -File scripts\build_windows_release.ps1
+
+产物位置：
+  dist\ezbookkeeping-0.1.0-windows-x64\          （可直接运行的文件夹）
+  dist\ezbookkeeping-0.1.0-windows-x64.zip         （压缩包，便于分发）
+
+运行：双击 ezbookkeeping_desktop.exe
+
+说明：
+  - 脚本会自动执行 flutter test，测试通过后才打包
+  - 打包前请关闭轻记账和 flutter run，避免 build 目录被占用
+  - 若 MSB8066 / app.dill 读取失败，多为路径中文编码或文件占用；可迁到英文路径或用 subst 映射盘符后重试
+  - 数据目录：%USERPROFILE%\Documents\ezbookkeeping\

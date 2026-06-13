@@ -1,0 +1,16 @@
+{
+  "files.exclude": {
+    ".dart_tool": true,
+    "build": true,
+    ".idea": true,
+    ".flutter-plugins-dependencies": true,
+    ".metadata": true,
+    "*.iml": true
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "pubspec.yaml": "pubspec.lock, analysis_options.yaml, .metadata, .flutter-plugins-dependencies",
+    "README.md": "启动.bat"
+  }
+}
