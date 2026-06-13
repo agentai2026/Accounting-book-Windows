@@ -23,3 +23,8 @@ Thumbs.db
 # Database (local dev)
 *.db
 *.db-journal
+
+# Local dev artifacts
+real_image_result.txt
+scan_out.txt
+tool/_tmp_check.dart

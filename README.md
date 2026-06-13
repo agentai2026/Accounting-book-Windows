@@ -1,5 +1,7 @@
 # 轻记账 · Windows 桌面端
 
+[![CI](https://github.com/agentai2026/Accounting-book-Windows/actions/workflows/ci.yml/badge.svg)](https://github.com/agentai2026/Accounting-book-Windows/actions/workflows/ci.yml)
+
 个人记账软件电脑端（Flutter Desktop + SQLite），数据本地优先，核心层预留手机端复用。
 
 仓库：[agentai2026/Accounting-book-Windows](https://github.com/agentai2026/Accounting-book-Windows)
@@ -39,6 +41,12 @@ dart run build_runner build --delete-conflicting-outputs
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\build_windows_release.ps1
 ```
+
+预编译包见 [Releases](https://github.com/agentai2026/Accounting-book-Windows/releases)（推送 `v*` 标签时自动构建 Windows 安装目录压缩包）。
+
+## 参与贡献
+
+请参阅 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 ## 数据目录
 
